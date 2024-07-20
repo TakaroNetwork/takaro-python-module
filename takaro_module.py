@@ -1,6 +1,6 @@
 __author__  = "h4ribote"
 __email__   = "contact@h4ribote.net"
-__version__ = '1.0'
+__version__ = '1.1'
 
 
 import requests
@@ -231,7 +231,7 @@ class Currency:
     def __repr__(self) -> str:
         return f"Currency(id={self.currency_id},name={self.name},symbol={self.symbol},admin={self.admin.address})"
     
-    def create(name:str,symbol:str,admin:Address,difficulty:int=8):
+    def create(name:str,symbol:str,admin:Address,difficulty:int=7):
         currency_data = f"{name}{symbol}{admin.str}"
         nonce = 0
         while True:
@@ -251,7 +251,7 @@ class Currency:
 
         return new_currency
     
-    def verify(self,difficulty:int=8) -> bool:
+    def verify(self,difficulty:int=7) -> bool:
         try:
             currency_data = f"{self.name}{self.symbol}{self.admin.str}"
             data = f"{currency_data}{self.nonce}"
@@ -398,7 +398,7 @@ class Transaction:
         
         return hashlib.sha256(transaction_data.encode()).hexdigest()
     
-    def mine(self, miner_wallet:Wallet, previous_hash:str, comment:str, difficulty:int = 6) -> None:
+    def mine(self, miner_wallet:Wallet, previous_hash:str, comment:str, difficulty:int = 4) -> None:
         self.previous_hash = previous_hash
         data1 = (f"{self.transaction_id}{self.signature.signature}{self.previous_hash}{self.source.address}{self.dest.address}"
                  f"{self.amount}{self.currency.currency_id}{self.fee_amount}{self.comment}")
